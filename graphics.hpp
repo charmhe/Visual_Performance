@@ -92,7 +92,7 @@ void super_K(int size,int upper){
 
 
     for(int i = 1; i <= sam_num; i++){
-        printf("k: %d\n",i);
+        //printf("k: %d\n",i);
         double answer = test_mix(size,i,0);
         if(answer > largest){largest = answer; printf("最大k: %d\n",i);}
         else if(answer < smallest){smallest = answer; printf("最小k: %d\n",i);}

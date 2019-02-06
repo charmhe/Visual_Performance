@@ -42,6 +42,7 @@ void array_reporter(int* D, int size, std::string choice){
     if(choice=="asn1_b")printf("\nMerge Sort Output - 20/Size:%d\n",size);
     else if(choice=="asn1_a") printf("Insert Sort Output - 20/Size:%d\n",size);
     else if(choice=="asn1_c") printf("Mixed Sort Output - 20/Size:%d\n",size);
+    else printf("Error: array_reporter: wrong name;");
 
     //if size < 20, D may have unexpected entries. Avioid it.
     if(size < 20)

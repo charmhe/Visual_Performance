@@ -1,74 +1,55 @@
-//
-//  main.cpp
-//  cs3340_1
-//
-//  Created by Charles on 2019-02-04.
-//  Copyright © 2019 Mu He. All rights reserved.
-//
+/*
+ *
+ * @Author Mu He, 250995508
+ *
+ * CLRS 1.3 Merge(A,p,q,r), p15, for Divide-and-Conqur Algo.
+ * CLRS 1.1 Insert(A,p,q)
+ *
+ * @2018-12-01, 6:30 A.M.
+ * editted at 2019/2/4
+ *
+ */
 
-#include <iostream>
-#include <vector>
-#include <cmath>
-#include <time.h>
+//Merge(A,B,size of A, size of B): merge two sorted array
 
-#define LOW 0   //the random number's lower bound
-#define num1 20000
-#define num2 200000
-#define num3 200000000
+#include "graphics.hpp"
 
-int MAX;
-int num[9] = {2,20,200,2000,num1,num2,2000000,200000000,num3};
-int UP;//the random number's upper bound
-
-using namespace std;
-
-void PrintArray(int *array, int n) {
-    for (int i = 0; i < n; ++i)
-        std::cout << array[i] << " " << std::flush;
-    std::cout << std::endl;
+//used to compare merge's performance
+void compare2merge(int size, int printON){
+    test_BB(size, printON);
 }
 
-void InsertionSort(int arr[], int arr_size){
-    if(arr_size > 1){
-        int size = arr_size;
-        for(int i = 1; i < size; ++i){
-            int j = i - 1;
-            int key = arr[i];
-            while(j >= 0 && arr[j] > key){
-                arr[j+1] = arr[j];
-                --j;
-            }
-            arr[j+1] = key;
-        }
-    }
+void compare2insert(int size, int printON){
+    test_AA(size, printON);
 }
 
-void insertion_sort(std::vector<int>& array) {
-    for (auto it = array.begin(), end = array.end(); it != end; ++it) {
-        std::rotate(std::upper_bound(array.begin(), it, *it), it, it + 1);
-    }
+void insert(int size, int printON){
+    test("asn1_a", size, printON);
 }
 
-int main(int argc, const char * argv[]) {
-    for(int i = 0;i < 9;i++){
-        cout<< i <<"\t";
-        vector <int> a;
-        for(int j = num[i]; j > 0;j--){
-            a.push_back(j);
-        }
+void mergS(int size, int printON){
+    test("asn1_b", size, printON);
+}
 
-        clock_t t1 = clock();
-        insertion_sort(a);
-        cout << "时长：" << (clock() - t1) * 1.0 / CLOCKS_PER_SEC * 1000 <<"毫秒"<< endl;
+void
+mixed(int size, int printON, int k){
+    test_mix(size, k, printON);
+}
 
-//        vector<int>::iterator iter = a.begin();
-//        cout<< i <<"\t";
-//        while (iter != a.end())
-//        {
-//            cout << *iter << "\t";
-//            iter++;
-//        }
-    }
+
+int main(int argc, char **argv){
+    int k = 2;
+    int size = 2000000;
+    int printON = 0;
+
+//    insert(size,printON);
+//    mergS(size,printON);
+//    mixed(size, printON, k);
+
+
+//    super_k(argc, argv, num[6],50);
+
+    compare2merge(size, printON);
     return 0;
 }
 
