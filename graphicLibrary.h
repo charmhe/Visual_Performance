@@ -1,65 +1,36 @@
 //
-//  newSuper.hpp
+//  graphics.h
 //  cs3340_1
 //
-//  Created by Charles on 2019-02-05.
+//  Created by Charles on 2019-02-06.
 //  Copyright © 2019 Mu He. All rights reserved.
 //
 
-#ifndef newSuper_hpp
-#define newSuper_hpp
+#ifndef graphics_h
+#define graphics_h
+#endif /* graphics_h */
 
-#include <vector>
-#include <algorithm>
-#include <iterator>
-#include <time.h> //for time(NULL)
-#include <unistd.h> //for getpid()
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream>
-#include <string>
 #include <GLUT/glut.h>
 #include <OpenGL/gl.h>
 #include <OpenGl/glu.h>
+
+#include <vector>
 #include <math.h>
-#include <iostream>
-#define LOW 0   //the random number's lower bound
-#define num1 20000
-#define num2 200000
-#define num3 200000000
 
-int MAX;
-int numsize = 9;
-int num[9] = {2,20,200,2000,num1,num2,2000000,20000000,num3};
-int UP;//the random number's upper bound
+std::vector<double> result;
 
-#endif /* newSuper_hpp */
-
-
-const int windowW = 1000;
+const int drawWidth = 1000;//绘画时候的宽度
+const int windowW = 1002; //真屏幕宽度
 const int windowH = 1000;
 const int up = 950;
 const int low = 50;
 const int delta = up - low;
 
-std::vector<double> result;
-double smallest = 1000000000;
-double largest = -1;
-double average = -1;
-int step;
-int sam_num;
-
+//functions in OpenGL
 void OnDisplay();
 void OnKeyboard(unsigned char key, int x, int y);
 void Draw();
 void k_draw(std::vector<double> result, int sample_num);
-void mergeSort(int arr[], int l, int r);
-void merge(int arr[], int l, int m, int r);
-void MixedSort(int arr[], int l, int r, int k);
-void InsertSort(int arr[], int n);
-int* array_generator(int size, int print);
-
-
 unsigned char frame[windowW * windowH * 3];
 void Bresenham( int x1,  int y1,  int x2,  int y2,unsigned char r, unsigned char g, unsigned char b);
 void array_reporter(int* D, int size, std::string choice);
@@ -233,108 +204,3 @@ void Draw() {
     }
 }
 
-
-void OnDisplay() {
-    memset(frame, 255, windowW * windowH * 3);
-    k_draw(result, sam_num);
-
-    glClear(GL_COLOR_BUFFER_BIT);
-    glDrawPixels(windowW, windowH, GL_RGB, GL_UNSIGNED_BYTE, (GLubyte*)frame);
-    glutSwapBuffers();
-    glFlush();
-}
-
-//test for Merge_sort(A,p,r) and Insert_sort
-double test(std::string choice, int size){
-    UP = MAX = size;
-    //Make array C, reversely sorted integers, choose print it or not
-    int *C = array_generator(size,0);//0 means don't print out
-
-    //timer
-    clock_t t1 = clock();
-
-    if(choice == "asn1_b")mergeSort(C, 0, MAX-1);
-    else if(choice == "asn1_a")InsertSort(C,MAX-1);
-    else exit(1);
-
-    //timer
-    double time = (clock() - t1) * 1.0 / CLOCKS_PER_SEC * 1000;
-    //std::cout << "\nMerge Sort:"<< time <<"ms"<< std::endl;
-
-    //array_reporter(C,size,choice);
-    free(C);
-    return time;
-}
-
-//test only for Mixed Sort
-double test(int size, int k){
-    UP = MAX = size;
-    //Make array C, reversely sorted integers
-    int *C = array_generator(size,0);//0 means don't print out
-
-    //timer
-    clock_t t1 = clock();
-    MixedSort(C, 0, MAX-1, k);
-    //timer
-    double time = (clock() - t1) * 1.0 / CLOCKS_PER_SEC * 1000;
-    //std::cout << "\nMixed Sort:"<< time <<"ms"<< std::endl;
-
-    //array_reporter(C,size,choice);
-    free(C);
-    return time;
-}
-
-void seperate(int argc, char **argv){
-    //To generate a random number;
-    srand(time(NULL)-getpid());
-    //To convert input arguments
-    int size = std::stoi(argv[1]); std::string choice(argv[0]);
-
-    if(argc == 2 && choice.substr(2) != "asn1_c")test(choice.substr(2), size);
-    else if(argc == 3 && choice.substr(2) == "asn1_c"){
-        int k = std::stoi(argv[2]);
-        if (k > 0 && k <= size)test(size, k);
-        else exit(1);
-    }
-    else exit(1);
-}
-
-//Make array C, reversely sorted integers. print = 1: print the array
-int* array_generator(int size, int print){
-    int *C = (int*)malloc(sizeof(int)*size);
-    if(size<20)C = (int*)malloc(sizeof(int)*100);
-    //avoiding size < 20
-    for(int j = 0; j < 20; j++)*(C+j) = 0;
-
-    C[0] = size;
-
-    for(int i = 1; i < MAX; i++){
-        //*(C+i) = LOW + rand() % (UP - LOW);
-        C[i] = C[i-1] - rand()%(3);
-    }
-
-    if(print == 1){
-        printf("Reverse Array generated - 20/Size %d\n",size);
-        //Asked to print first 20 num
-        for(int i = 0; i < 20; i++){
-            printf("        %d\n",*(C+i));
-        }
-    }
-    return C;
-}
-
-void array_reporter(int* D, int size, std::string choice){
-    if(choice=="asn1_b")printf("\nMerge Sort Output - 20/Size:%d\n",MAX);
-    else if(choice=="asn1_a") printf("Insert Sort Output - 20/Size:%d\n",MAX);
-    else if(choice=="asn1_c") printf("Mixed Sort Output - 20/Size:%d\n",MAX);
-
-    //if size < 20, D may have unexpected entries. Avioid it.
-    if(size < 20)
-        for(int i = size; i < 20; i++)
-            D[i] = 0;
-
-    //Print first 20 answers
-    for(int i = 0; i < 20; i++){
-        printf("        %d\n",*(D+i));
-    }
-}
