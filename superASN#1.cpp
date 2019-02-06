@@ -1,6 +1,6 @@
 /* 
  *
- * @Author Mu He, 250995508
+ * @Author Charles He
  * 
  * CLRS 1.3 Merge(A,p,q,r), p15, for Divide-and-Conqur Algo.
  * CLRS 1.1 Insert(A,p,q)
