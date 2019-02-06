@@ -1,6 +1,6 @@
 /* 
  *
- * @Author Charles He
+ * @Author Mu He, 250995508
  * 
  * CLRS 1.3 Merge(A,p,q,r), p15, for Divide-and-Conqur Algo.
  * CLRS 1.1 Insert(A,p,q)
@@ -304,7 +304,6 @@ int* rarray_generator(int size, int print){
             printf("        %d\n",*(C+i));
         }
     }
-
     return C;
 }
 
@@ -398,6 +397,7 @@ void super_K(int size){
             *(a+i) = test("asn1_b",size);
         }
         average = (a[0]+a[1]+a[2]+a[3]+a[4]+a[5])/6;
+        free(a);
     }
     else if(size == num[8]) average = test("asn1_b",size);
 
