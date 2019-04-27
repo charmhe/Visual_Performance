@@ -1,8 +1,9 @@
-# Merge_Insert_Algorithm
-An visible algorithm which could decided the best efficiency of K, range of subarray.
+# Visual Algorithm Performance 
 
-2/6/2018, noon: Still a problem: MixSort is too slow to use.
+## The work procedure
 
-1.What's interesting is, MergeSort 0/MergeSort 1 have performance difference; 
+1. Automatically calculate estimated runtime, and assign a reasonable step for different algorithms;
 
-2.怎么把insert的纯C比C++快
+2. Randomly generate an input for test;
+
+3. Create diagram to analysis algorithms' performance.
